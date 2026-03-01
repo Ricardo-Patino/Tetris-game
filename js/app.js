@@ -211,15 +211,14 @@ document.addEventListener('DOMContentLoaded', () => {
     )
   }
 
-  function endGame() {
-    scoreDisplay.innerHTML = 'GAME OVER'
-    clearInterval(timerId)
-    timerId = null
+function endGame() {
+  scoreDisplay.innerHTML = 'GAME OVER'
+  clearInterval(timerId)
+  timerId = null
 
-    // bloquea controles para que no se siga jugando
-    document.removeEventListener('keydown', control)
-    startBtn.disabled = true
-  }
+  document.removeEventListener('keydown', control)
+  startBtn.disabled = true
+}
 
   //show previous tetromino in scoreDisplay
   const displayWidth = 4
@@ -324,4 +323,5 @@ function restartGame() {
 
 
 })
+
 
