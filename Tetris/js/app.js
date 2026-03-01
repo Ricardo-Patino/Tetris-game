@@ -180,14 +180,23 @@ document.addEventListener('DOMContentLoaded', () => {
       // make it block2
       current.forEach(index => squares[index + currentPosition].classList.add('block2'))
       // start a new tetromino falling
-      random = nextRandom
+            random = nextRandom
       nextRandom = Math.floor(Math.random() * theTetrominoes.length)
+
+      // IMPORTANTE: reset rotastion at spawn the new piece 
+      currentRotation = 0
       current = theTetrominoes[random][currentRotation]
       currentPosition = 4
+
+      // VALIDATE Game Over before drawing 
+      if (isGameOver()) {
+        endGame()
+        return
+      }
+
       draw()
       displayShape()
       addScore()
-      gameOver()
     }
   }
   freeze()
@@ -204,11 +213,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   //Game Over
-  function gameOver() {
-    if (current.some(index => squares[currentPosition + index].classList.contains('block2'))) {
-      scoreDisplay.innerHTML = 'end'
-      clearInterval(timerId)
-    }
+  function isGameOver() {
+    return current.some(index =>
+      squares[currentPosition + index].classList.contains('block2')
+    )
+  }
+
+  function endGame() {
+    scoreDisplay.innerHTML = 'GAME OVER'
+    clearInterval(timerId)
+    timerId = null
+
+    // bloquea controles para que no se siga jugando
+    document.removeEventListener('keydown', control)
+    startBtn.disabled = true
   }
 
   //show previous tetromino in scoreDisplay
@@ -264,5 +282,6 @@ document.addEventListener('DOMContentLoaded', () => {
   span.addEventListener('click', () => {
     menu.style.display = 'none'
   })
+
 
 })
