@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const grid = createGrid();
   let squares = Array.from(grid.querySelectorAll('div'))
   const startBtn = document.querySelector('.button')
+  const restartBtn = document.querySelector('.restart-button')
   const hamburgerBtn = document.querySelector('.toggler')
   const menu = document.querySelector('.menu')
   const span = document.getElementsByClassName('close')[0]
@@ -201,6 +202,50 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   freeze()
 
+  // =====================
+// RESTART GAME
+// =====================
+restartBtn.addEventListener('click', restartGame)
+
+function restartGame() {
+  // 1) Timer stops
+  if (timerId) {
+    clearInterval(timerId)
+    timerId = null
+  }
+
+  // 2) Reactivate controls (if it was a GAME OVER)
+  document.addEventListener('keydown', control)
+  startBtn.disabled = false
+
+  // 3) Reset score
+  score = 0
+  scoreDisplay.innerHTML = score
+
+  // 4) Makes sure that squares points to the actual game
+  squares = Array.from(grid.querySelectorAll('div'))
+
+  // 5) cleans the board 
+  for (let i = 0; i < GRID_SIZE; i++) {
+    squares[i].classList.remove('block', 'block2')
+    squares[i].style.backgroundImage = ''
+  }
+
+  // 6) Reiniciates actual amd nest piece 
+  currentRotation = 0
+  currentPosition = 4
+  nextRandom = Math.floor(Math.random() * theTetrominoes.length)
+  random = Math.floor(Math.random() * theTetrominoes.length)
+  current = theTetrominoes[random][currentRotation]
+
+  // 7) Re draws the piece and preview
+  draw()
+  displayShape()
+
+  // 8) Automátically reiniciates the timer
+  timerId = setInterval(moveDown, 1000)
+}
+
   //Rotate the Tetromino
   function rotate() {
     undraw()
@@ -223,6 +268,10 @@ document.addEventListener('DOMContentLoaded', () => {
     scoreDisplay.innerHTML = 'GAME OVER'
     clearInterval(timerId)
     timerId = null
+    
+    document.removeEventListener('keydown', control)
+    startBtn.disabled = true
+}
 
     // bloquea controles para que no se siga jugando
     document.removeEventListener('keydown', control)
@@ -285,3 +334,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 })
+
