@@ -214,12 +214,13 @@ let gameIsOver = false
   }
 
 function endGame() {
+  gameIsOver = true
   scoreDisplay.innerHTML = 'GAME OVER'
   clearInterval(timerId)
   timerId = null
 
+  // Blocks controls to stop moves
   document.removeEventListener('keydown', control)
-  startBtn.disabled = true
 }
 
   //show previous tetromino in scoreDisplay
@@ -325,6 +326,7 @@ function restartGame() {
 
 
 })
+
 
 
 
