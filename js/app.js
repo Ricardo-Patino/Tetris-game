@@ -9,8 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let squares = Array.from(grid.querySelectorAll('div'))
   const startBtn = document.querySelector('.button')
   const restartBtn = document.querySelector('.restart-button')
-let gameIsOver = false
-  const restartBtn = document.querySelector('.restart-button')
+  let gameIsOver = false
   const hamburgerBtn = document.querySelector('.toggler')
   const menu = document.querySelector('.menu')
   const span = document.getElementsByClassName('close')[0]
@@ -204,7 +203,6 @@ displayShape()
 addScore()
     }
   }
-  freeze()
 
   //Rotate the Tetromino
   function rotate() {
@@ -288,10 +286,12 @@ function endGame() {
     menu.style.display = 'none'
   })
 
- // =====================
+// =====================
 // RESTART
 // =====================
-restartBtn.addEventListener('click', restartGame)
+if (restartBtn) {
+  restartBtn.addEventListener('click', restartGame)
+}
 
 function restartGame() {
   // 1) Parar timer
@@ -305,7 +305,7 @@ function restartGame() {
   document.removeEventListener('keydown', control)
   document.addEventListener('keydown', control)
 
-  // 3) Reset score y líneas (tu HTML tiene .lines-score)
+  // 3) Reset score y líneas
   score = 0
   lines = 0
   scoreDisplay.innerHTML = score
@@ -331,12 +331,11 @@ function restartGame() {
   displayShape()
   draw()
 
-  // 8) Arrancar automáticamente (si querés que no arranque, quitá estas 2 líneas)
+  // 8) Arrancar automáticamente
   timerId = setInterval(moveDown, 1000)
 }
+)
 
-
-})
 
 
 
