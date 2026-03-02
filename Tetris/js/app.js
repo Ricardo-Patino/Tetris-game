@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let gameIsOver = false
   const hamburgerBtn = document.querySelector('.toggler')
   const menu = document.querySelector('.menu')
-  const span = document.getElementsByClassName('close')[0]
+  const closeBtn = document.querySelector('.menu .close')
   const scoreDisplay = document.querySelector('.score-display')
   const linesDisplay = document.querySelector('.lines-score')
   let currentIndex = 0
@@ -252,6 +252,7 @@ function restartGame() {
 
 
 })
+
 
 
 
