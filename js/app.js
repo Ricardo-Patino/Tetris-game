@@ -204,21 +204,13 @@ document.addEventListener('DOMContentLoaded', () => {
     draw()
   }
 
-  //Game Over : you loosse if the new piece appears and the spawn zone is taken.
-  function isGameOver() {
-    return current.some(index =>
-      squares[currentPosition + index].classList.contains('block2')
-    )
+  //Game Over
+  function gameOver() {
+    if (current.some(index => squares[currentPosition + index].classList.contains('block2'))) {
+      scoreDisplay.innerHTML = 'end'
+      clearInterval(timerId)
+    }
   }
-
-function endGame() {
-  scoreDisplay.innerHTML = 'GAME OVER'
-  clearInterval(timerId)
-  timerId = null
-
-  document.removeEventListener('keydown', control)
-  startBtn.disabled = true
-}
 
   //show previous tetromino in scoreDisplay
   const displayWidth = 4
@@ -323,5 +315,3 @@ function restartGame() {
 
 
 })
-
-
