@@ -143,16 +143,18 @@ let gameIsOver = false
   }
 
   startBtn.addEventListener('click', () => {
-    if (timerId) {
-      clearInterval(timerId)
-      timerId = null
-    } else {
-      draw()
-      timerId = setInterval(moveDown, 1000)
-      nextRandom = Math.floor(Math.random() * theTetrominoes.length)
-      displayShape()
-    }
-  })
+  if (gameIsOver) return  //  If is over, Start cant resume the game
+
+  if (timerId) {
+    clearInterval(timerId)
+    timerId = null
+  } else {
+    draw()
+    timerId = setInterval(moveDown, 1000)
+    nextRandom = Math.floor(Math.random() * theTetrominoes.length)
+    displayShape()
+  }
+})
 
   //move left and prevent collisions with shapes moving left
   function moveright() {
@@ -183,14 +185,23 @@ let gameIsOver = false
       // make it block2
       current.forEach(index => squares[index + currentPosition].classList.add('block2'))
       // start a new tetromino falling
-      random = nextRandom
-      nextRandom = Math.floor(Math.random() * theTetrominoes.length)
-      current = theTetrominoes[random][currentRotation]
-      currentPosition = 4
-      draw()
-      displayShape()
-      addScore()
-      gameOver()
+     random = nextRandom
+nextRandom = Math.floor(Math.random() * theTetrominoes.length)
+
+// Rotation reset at spawn the new piece nueva
+currentRotation = 0
+current = theTetrominoes[random][currentRotation]
+currentPosition = 4
+
+//  REALGAME OVER : if the new piece crush is over. 
+if (current.some(index => squares[currentPosition + index].classList.contains('block2'))) {
+  endGame()
+  return
+}
+
+draw()
+displayShape()
+addScore()
     }
   }
   freeze()
@@ -277,55 +288,56 @@ function endGame() {
     menu.style.display = 'none'
   })
 
-  // =====================
-// RESTART GAME
+ // =====================
+// RESTART
 // =====================
-if (restartBtn) {
-  restartBtn.addEventListener('click', restartGame)
-}
+restartBtn.addEventListener('click', restartGame)
 
 function restartGame() {
-  // 1) Parar el juego si estaba corriendo
+  // 1) Parar timer
   if (timerId) {
     clearInterval(timerId)
     timerId = null
   }
 
-  // 2) Reactivar controles y Start (por si venías de GAME OVER)
+  // 2) Re-habilitar juego
+  gameIsOver = false
   document.removeEventListener('keydown', control)
   document.addEventListener('keydown', control)
-  startBtn.disabled = false
 
-  // 3) Reset score
+  // 3) Reset score y líneas (tu HTML tiene .lines-score)
   score = 0
+  lines = 0
   scoreDisplay.innerHTML = score
+  linesDisplay.innerHTML = lines
 
-  // 4) Re-leer las celdas (porque addScore() hace splice/concat)
+  // 4) Re-armar squares (porque addScore() usa splice/concat)
   squares = Array.from(grid.querySelectorAll('div'))
 
-  // 5) Limpiar el tablero jugable (0..199). No tocar el “suelo” block3
+  // 5) Limpiar tablero jugable (0..199). No tocar el “suelo” block3
   for (let i = 0; i < GRID_SIZE; i++) {
     squares[i].classList.remove('block', 'block2')
-    squares[i].style.backgroundImage = 'none'
+    squares[i].style.backgroundImage = ''
   }
 
-  // 6) Reset de pieza actual + siguiente
+  // 6) Reset pieza actual y siguiente
   currentRotation = 0
   currentPosition = 4
   random = Math.floor(Math.random() * theTetrominoes.length)
   nextRandom = Math.floor(Math.random() * theTetrominoes.length)
   current = theTetrominoes[random][currentRotation]
 
-  // 7) Mostrar preview y dibujar la pieza nueva
+  // 7) Redibujar + preview
   displayShape()
   draw()
 
-  // 8) Arrancar el juego otra vez
+  // 8) Arrancar automáticamente (si querés que no arranque, quitá estas 2 líneas)
   timerId = setInterval(moveDown, 1000)
 }
 
 
 })
+
 
 
 
