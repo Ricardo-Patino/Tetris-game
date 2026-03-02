@@ -205,9 +205,7 @@ const restartBtn = document.querySelector('.restart-button')
 // =====================
 // RESTART GAME
 // =====================
-if (restartBtn) {
-  restartBtn.addEventListener('click', restartGame)
-}
+restartBtn.addEventListener('click', restartGame)
 
 function restartGame() {
   // 1) Parar el juego si estaba corriendo
@@ -221,17 +219,19 @@ function restartGame() {
   document.addEventListener('keydown', control)
   startBtn.disabled = false
 
-  // 3) Reset score
+  // 3) Reset score y líneas
   score = 0
+  lines = 0
   scoreDisplay.innerHTML = score
+  linesDisplay.innerHTML = lines
 
-  // 4) Re-leer las celdas (porque addScore() hace splice/concat)
+  // 4) Re-leer las celdas (porque addScore() reordena squares con splice/concat)
   squares = Array.from(grid.querySelectorAll('div'))
 
   // 5) Limpiar el tablero jugable (0..199). No tocar el “suelo” block3
   for (let i = 0; i < GRID_SIZE; i++) {
     squares[i].classList.remove('block', 'block2')
-    squares[i].style.backgroundImage = 'none'
+    squares[i].style.backgroundImage = ''
   }
 
   // 6) Reset de pieza actual + siguiente
@@ -241,7 +241,7 @@ function restartGame() {
   nextRandom = Math.floor(Math.random() * theTetrominoes.length)
   current = theTetrominoes[random][currentRotation]
 
-  // 7) Mostrar preview y dibujar la pieza nueva
+  // 7) Preview y primera pieza
   displayShape()
   draw()
 
@@ -251,6 +251,7 @@ function restartGame() {
 
 
 })
+
 
 
 
