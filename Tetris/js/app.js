@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // no need to type 200 divs :)
   const grid = createGrid();
   let squares = Array.from(grid.querySelectorAll('div'))
-  const startBtn = document.querySelector('.button')
-  const restartBtn = document.querySelector('.restart-button')
+  const startBtn = document.querySelector('.start-button')
+const restartBtn = document.querySelector('.restart-button')
   const hamburgerBtn = document.querySelector('.toggler')
   const menu = document.querySelector('.menu')
   const span = document.getElementsByClassName('close')[0]
@@ -251,6 +251,7 @@ function restartGame() {
 
 
 })
+
 
 
 
