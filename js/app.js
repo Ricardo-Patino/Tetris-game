@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let squares = Array.from(grid.querySelectorAll('div'))
   const startBtn = document.querySelector('.button')
   const restartBtn = document.querySelector('.restart-button')
+let gameIsOver = false
+  const restartBtn = document.querySelector('.restart-button')
   const hamburgerBtn = document.querySelector('.toggler')
   const menu = document.querySelector('.menu')
   const span = document.getElementsByClassName('close')[0]
@@ -323,6 +325,7 @@ function restartGame() {
 
 
 })
+
 
 
 
