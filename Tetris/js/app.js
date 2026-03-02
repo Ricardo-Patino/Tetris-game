@@ -7,9 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // no need to type 200 divs :)
   const grid = createGrid();
   let squares = Array.from(grid.querySelectorAll('div'))
-  const startBtn = document.querySelector('.start-button')
+  const startBtn = document.querySelector('.button')
   const restartBtn = document.querySelector('.restart-button')
-  let gameIsOver = false
   const hamburgerBtn = document.querySelector('.toggler')
   const menu = document.querySelector('.menu')
   const span = document.getElementsByClassName('close')[0]
@@ -29,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'url(images/peach_block.png)',
     'url(images/yellow_block.png)'
   ]
+
 
 
   function createGrid() {
@@ -252,6 +252,7 @@ function restartGame() {
 
 
 })
+
 
 
 
