@@ -282,8 +282,7 @@ function endGame() {
   hamburgerBtn.addEventListener('click', () => {
     menu.style.display = 'flex'
   })
-  if (closeBtn) {
-  closeBtn.addEventListener('click', () => {
+    span.addEventListener('click', () => {
     menu.style.display = 'none'
   })
 }
@@ -337,6 +336,7 @@ function restartGame() {
   timerId = setInterval(moveDown, 1000)
 }
 )
+
 
 
 
